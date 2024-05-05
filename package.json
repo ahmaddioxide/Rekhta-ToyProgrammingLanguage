@@ -1,0 +1,54 @@
+{
+  "name": "toylang",
+  "version": "1.0.1",
+  "description": "A toy programming language built with TypeScript for learning purposes",
+  "homepage": "https://github.com/anuraghazra/ToyLang",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "dev": "ts-node --transpile-only index",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "example": "ts-node examples/runner"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "jest": "^26.6.3",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^9.1.1"
+  },
+  "dependencies": {
+    "@types/dedent": "^0.7.0",
+    "@types/jest": "^26.0.23",
+    "chalk": "4",
+    "cli-highlight": "^2.1.11",
+    "dedent": "^0.7.0",
+    "typescript": "^4.2.4"
+  },
+  "keywords": [
+    "toy",
+    "programming-language",
+    "parser",
+    "typescript",
+    "interpreter"
+  ],
+  "author": "Anurag Hazra <hazru.anurag@gmail.com>",
+  "license": "MIT",
+  "repository": "github:anuraghazra/ToyLang",
+  "bugs": {
+    "url": "https://github.com/anuraghazra/ToyLang/issues"
+  },
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://www.paypal.me/anuraghazra"
+    },
+    "https://www.buymeacoffee.com/anuraghazra"
+  ]
+}
