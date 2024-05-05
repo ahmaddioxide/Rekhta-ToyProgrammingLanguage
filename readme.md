@@ -1,71 +1,108 @@
-<p align="center">
+# Rekhta: A Toy Language for Exploring Compiler Construction
 
-<img alt="ToyLang logo" src="./assets/toylang-logo.svg"/>
 
-<p align="center">A toy programming language built with TypeScript for learning purposes.<p>
+## Introduction
 
-<p>
+Rekhta is a toy language designed to provide a hands-on learning experience for understanding compiler construction principles while also creating an accessible language for non-programmers. It aims to bridge the gap between theoretical concepts and practical implementation, offering a platform for experimentation and exploration.
 
-## Learning resources
+## Motivation
 
-Here are few excellent resources I followed while building ToyLang.
+Rekhta addresses two primary goals:
 
-- "Building a parser from scratch" course by Dmitry Soshnikov
-  http://dmitrysoshnikov.com/courses/parser-from-scratch/
+1. **Learning Tool:** To provide a practical environment for individuals interested in learning about compiler design. By constructing a compiler for Rekhta, I gained valuable insights into parsing, code generation, and other core aspects of compiler development.
 
-- "A handbook for making programming languages."
-  https://craftinginterpreters.com
+2. **Accessible Language:** To create a language with Urdu syntax that is intuitive and easy to grasp for those without a strong programming background. This makes Rekhta a potential tool for enabling non-programmers to perform basic computational tasks, particularly Urdu speakers who may find traditional programming languages less familiar.
 
-- "Let’s Build A Simple Interpreter" blogposts
-  https://ruslanspivak.com/lsbasi-part1/
+## Language Design
 
-- "The Super Tiny Compiler" by jamiebuilds
-  https://github.com/jamiebuilds/the-super-tiny-compiler
+Rekhta incorporates the following key features:
 
-## Examples
+- **Urdu Syntax:** Keywords are replaced with their Urdu equivalents, such as `banao` for `let`, `agar` for `if`, and `jab tak` for `while`, enhancing the language's naturalness for Urdu speakers and making it more approachable for those unfamiliar with English-based programming languages.
 
-The syntax & semantics of the language is very similar to JavaScript with few differences.
+- **Limited Scope:** Rekhta currently focuses on fundamental programming elements like data types, operators, control flow statements, and functions. This simplifies the compiler design while still providing a foundation for basic programming tasks.
 
-To run examples from [/examples](./examples) folder, you simply need to run:
+- **LL(1) Lookahead Parsing:** The parser leverages the LL(1) lookahead technique, a well-established parsing method that ensures efficient and accurate parsing of the code.
 
-```sh
-# yarn example <name_of_example>
-yarn example factorial
+- **Abstract Syntax Tree (AST):** The parsed code is represented as an AST, facilitating efficient code generation and interpretation.
+
+## Implementation Details
+
+The Rekhta project is organized into well-defined folders:
+
+- `binop`: Handles binary operations like addition, subtraction, etc.
+- `class`: (Placeholder) Future implementation of classes.
+- `expression`: Represents and handles various types of expressions.
+- `identifiers`: Manages variable names and their scopes.
+- `iterations`: Implements control flow constructs like `while` loops.
+- `literals`: Represents literal values like numbers and strings.
+- `statements`: Defines different statement types like assignments and function calls.
+- `variables`: Manages variable declarations and their values.
+
+The interpreter folder contains:
+
+- `callableFunctions`: Handles function definitions and calls.
+- `Environment`: Stores variable values and function definitions.
+- `RETURN`: Represents the return statement.
+- `RunTimeError`: Handles runtime errors like division by zero.
+- `stdLib`: Provides built-in functions for common operations, similar to Python.
+
+The main folder includes:
+
+- `ASTFactorizers`: Generates the AST representation.
+- `ErrorReporters`: Handles and reports errors during parsing and execution.
+- `index`: The main entry point for the compiler (package).
+- `Parser`: Implements the LL(1) parsing algorithm.
+- `Tokenizzer`: Breaks the code into individual tokens and gives them class using enums.
+- `typings`: Defines type information for variables and expressions as JavaScript.
+
+## Sample Rekhta Code
+
+```
+def sirKoSalamKaro(sirKaNaam) {
+    print("Salam Sir", sirKaNaam);
+}
+
+def factorialCalculateKarKDo(number) {
+    agar (number == 0) {
+        WapisBhejo 1;
+    }
+    WapisBhejo number * factorialCalculateKarKDo(number - 1);
+}
+
+def factorialIterationSe(n) {
+    banao fac = 1;
+    for (banao i = 1; i < n + 1; i += 1) {
+        fac *= i;
+    }
+    WapisBhejo fac;
+}
+
+sirKoSalamKaro("Atif");
+print("Factorial Calculate ho gya: ", factorialCalculateKarKDo(5));
+print("Factorial Iterations se calculate hua: ", factorialIterationSe(5));
+
+```
 ```
 
-## API Usage
+import { Interpreter } from "../src/interpreter/Interpreter";
+import { Parser } from "../src/Parser";
 
-1. Install `toylang` package
+const args = process.argv.slice(2);
 
-```sh
-npm install toylang
+if (!args) throw new Error("Please provide an example name");
+
+run(args[0]);
+
+function run(file: string) {
+    const parser = new Parser();
+    const interpreter = new Interpreter();
+
+    const code = `
+        // Sample Rekhta code goes here
+    `;
+
+    const ast = parser.parse(code);
+
+    interpreter.execute(ast);
+}
 ```
-
-2. Use the package
-
-```js
-const { Parser, Interpreter } = require("toylang");
-
-const parser = new Parser();
-const interpreter = new Interpreter();
-
-const ast = parser.parse(`print(1+1);`);
-interpreter.execute(ast);
-```
-
-## Scope of the project
-
-The scope of the project is only limited to educational purposes, the code itself is written for better understanding, rather than efficient or production use cases.
-
-### Todos
-
-- [ ] Write more tests.
-- [ ] Refactor [ASTFactories.ts](src\ASTFactories.ts).
-- [ ] Refactor typings.
-- [ ] Add data structures (Arrays, Objects).
-- [ ] Add more examples.
-- [ ] Add support for imported modules.
-- [ ] Add support for Class declarations in interpreter.
-- [ ] More standard library functions.
-- [ ] Better error handling.
-- [ ] Overall refactor of the codebase.
